@@ -1,6 +1,9 @@
+*.swp
 *.pth
 *.t7
 output/*
 .idea
 experiments/*
 logs/*
+__pycache__/*
+

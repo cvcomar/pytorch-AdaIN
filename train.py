@@ -6,7 +6,7 @@ import torch.backends.cudnn as cudnn
 import torch.nn as nn
 import torch.utils.data as data
 from PIL import Image, ImageFile
-from tensorboardX import SummaryWriter
+#from tensorboardX import SummaryWriter
 from torchvision import transforms
 from tqdm import tqdm
 
@@ -83,7 +83,7 @@ save_dir = Path(args.save_dir)
 save_dir.mkdir(exist_ok=True, parents=True)
 log_dir = Path(args.log_dir)
 log_dir.mkdir(exist_ok=True, parents=True)
-writer = SummaryWriter(log_dir=str(log_dir))
+#writer = SummaryWriter(log_dir=str(log_dir))
 
 decoder = net.decoder
 vgg = net.vgg
@@ -124,8 +124,8 @@ for i in tqdm(range(args.max_iter)):
     loss.backward()
     optimizer.step()
 
-    writer.add_scalar('loss_content', loss_c.item(), i + 1)
-    writer.add_scalar('loss_style', loss_s.item(), i + 1)
+#    writer.add_scalar('loss_content', loss_c.item(), i + 1)
+#    writer.add_scalar('loss_style', loss_s.item(), i + 1)
 
     if (i + 1) % args.save_model_interval == 0 or (i + 1) == args.max_iter:
         state_dict = net.decoder.state_dict()
@@ -133,4 +133,4 @@ for i in tqdm(range(args.max_iter)):
             state_dict[key] = state_dict[key].to(torch.device('cpu'))
         torch.save(state_dict, save_dir /
                    'decoder_iter_{:d}.pth.tar'.format(i + 1))
-writer.close()
+#writer.close()

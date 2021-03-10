@@ -68,6 +68,8 @@ parser.add_argument('--save_ext', default='.jpg',
                     help='The extension name of the output image')
 parser.add_argument('--output', type=str, default='output',
                     help='Directory to save the output image(s)')
+parser.add_argument('--postfix', type=str, default='_',
+                    help='Custom postfix of output file')
 
 # Advanced options
 parser.add_argument('--preserve_color', action='store_true',
@@ -139,8 +141,8 @@ for content_path in content_paths:
             output = style_transfer(vgg, decoder, content, style,
                                     args.alpha, interpolation_weights)
         output = output.cpu()
-        output_name = output_dir / '{:s}_interpolation{:s}'.format(
-            content_path.stem, args.save_ext)
+        output_name = output_dir / '{:s}_interpolation{:s}{:s}'.format(
+            content_path.stem, args.postfix, args.save_ext, )
         save_image(output, str(output_name))
 
     else:  # process one content and one style
@@ -156,6 +158,6 @@ for content_path in content_paths:
                                         args.alpha)
             output = output.cpu()
 
-            output_name = output_dir / '{:s}_stylized_{:s}{:s}'.format(
-                content_path.stem, style_path.stem, args.save_ext)
+            output_name = output_dir / '{:s}_stylized_{:s}{:s}{:s}'.format(
+                content_path.stem, style_path.stem, args.postfix, args.save_ext)
             save_image(output, str(output_name))
